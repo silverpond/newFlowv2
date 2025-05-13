@@ -56,7 +56,14 @@ def main():
             print(f"Flow vector: {flow_vectors}")
             
             # Calculate movement score
-            movement_score = flow.compute_movement_score(flow_vectors)
+            # check if the flow vector is a numpy array
+            if isinstance(flow_vectors, np.ndarray):
+                movement_score = flow.compute_movement_score(flow_vectors)
+            else: 
+                # the situation where the first frame then no prev_frame then no movement score or sometime invalid value
+                movement_score = 0  
+                
+            print(f"Movement score: {movement_score}")
             movement_scores.append(float(movement_score))       
             
             #Store data for each process
