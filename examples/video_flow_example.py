@@ -38,19 +38,22 @@ def main():
             # Calculate movement score
             movement_score = flow.update(frame)
             
-            # Display the movement score on the frame
-            cv2.putText(
-                frame, 
-                f"Movement: {movement_score:.2f}", 
-                (10, 30), 
-                cv2.FONT_HERSHEY_SIMPLEX, 
-                1, 
-                (0, 255, 0), 
-                2
-            )
+            # Print the movement score to the console
+            print(f"Movement score: {movement_score:.2f}")
+            
+     #        # Display the movement score on the frame
+     #        cv2.putText(
+     #            frame, 
+     #            f"Movement: {movement_score:.2f}", 
+     #            (10, 30), 
+     #            cv2.FONT_HERSHEY_SIMPLEX, 
+     #            1, 
+     #            (0, 255, 0), 
+     #            2
+     #        )
         
-        # Display the frame
-        cv2.imshow("Optical Flow Movement", frame)
+     #    # Display the frame
+     #    cv2.imshow("Optical Flow Movement", frame)
         
         # Handle key presses
         key = cv2.waitKey(1) & 0xFF
@@ -62,7 +65,7 @@ def main():
     
     # Release resources
     cap.release()
-    cv2.destroyAllWindows()
+#     cv2.destroyAllWindows()
     flow.reset()
 
 if __name__ == "__main__":
