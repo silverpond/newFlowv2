@@ -69,7 +69,7 @@ def main():
             #Store data for each process
             data = {
                 "inference_time": inference_time,
-                "flow_vectors": flow_vectors.tolist(),
+                "flow_vectors": flow_vectors.tolist() if hasattr(flow_vectors, 'tolist') else list(flow_vectors),
                 "movement_scores": movement_scores
             }
             
