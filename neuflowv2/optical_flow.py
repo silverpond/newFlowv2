@@ -96,15 +96,6 @@ class OpticalFlow:
         """
         self.prev_frame = None 
         
-        
-    def get_movement_score(self) -> float:
-        """
-        Get the current movement score.
-        
-        Returns:
-            float: Current movement score.
-        """
-        return self.movement_score
      
      
      
