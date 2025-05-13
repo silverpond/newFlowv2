@@ -35,16 +35,16 @@ def main():
                 print("End of video stream.")
                 break
             
-            # Calculate movement score
-            movement_score = flow.update(frame)
+            # Calculate flow vector
+            flow_vectors = flow.update(frame)
             
-            # Print the movement score to the console
-            print(f"Movement score: {movement_score:.2f}")
+            # Print the flow vector to the console
+            print(f"Flow vector: {flow_vectors}")
             
-     #        # Display the movement score on the frame
+     #        # Display the flow vector on the frame
      #        cv2.putText(
      #            frame, 
-     #            f"Movement: {movement_score:.2f}", 
+     #            f"Flow vector: {flow_vectors}", 
      #            (10, 30), 
      #            cv2.FONT_HERSHEY_SIMPLEX, 
      #            1, 

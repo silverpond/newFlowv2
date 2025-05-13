@@ -76,26 +76,28 @@ class OpticalFlow:
         curr_frame_np = (frame_tensor.cpu().permute(1, 2, 0).numpy() * 255.0).astype(np.uint8)
         
         # Calculate optical flow
-        flow = self.estimator(prev_frame_np, curr_frame_np)
-        
-        # Calculate magnitude of flow vectors
-        u, v = flow[..., 0], flow[..., 1]
-        magnitude = np.sqrt(u**2 + v**2)
-        
-        # Calculate movement score (sum of all magnitudes)
-        movement_score = np.sum(magnitude)
+        flow_vectors = self.estimator(prev_frame_np, curr_frame_np) 
         
         # Store current frame for next comparison
         self.prev_frame = frame_tensor
         
+        return flow_vectors
+    
+    
+    def compute_movement_score(self, flow_vectors:np.ndarray) -> float:
+        """Computes the movement score from the flow vectors"""
+        u, v = flow_vectors[..., 0], flow_vectors[..., 1]
+        magnitude = np.sqrt(u**2 + v**2)
+        movement_score = np.sum(magnitude)
+
         return movement_score
+        
+        
     
     def reset(self):
         """
         Reset the optical flow state.
         """
         self.prev_frame = None 
-        
-     
      
      
