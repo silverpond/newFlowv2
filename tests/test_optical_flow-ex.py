@@ -60,7 +60,6 @@ class TestOpticalFlow(unittest.TestCase):
         
         # Check the expected output
         
-        
         # Clean up
         cap.release()
         self.optical_flow.reset()

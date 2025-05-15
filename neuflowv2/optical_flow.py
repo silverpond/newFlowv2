@@ -1,3 +1,4 @@
+from typing import Tuple
 import numpy as np
 import cv2
 import torch
@@ -61,17 +62,17 @@ class OpticalFlow:
         # Apply Gaussian blur to reduce noise
         filtered_frame = cv2.GaussianBlur(image, self.blur_kernel, 0)
         
-        # Convert BGR to RGB and preprocess
-        frame_tensor = self.preprocess_frame(
-            cv2.cvtColor(filtered_frame, cv2.COLOR_BGR2RGB)
-        ).to(self.device)
-        
+        # Assume RGB
+        # frame_tensor is CHW
+        frame_tensor = self.preprocess_frame(filtered_frame).to(self.device)
+
         # If this is the first frame, store it and return 0
         if self.prev_frame is None:
             self.prev_frame = frame_tensor
             return 0.0  # Return 0 if it's the first frame 
         
         # Convert tensors back to numpy for OpticalFlow estimation
+        # convert from CHW back to HWC
         prev_frame_np = (self.prev_frame.cpu().permute(1, 2, 0).numpy() * 255.0).astype(np.uint8)
         curr_frame_np = (frame_tensor.cpu().permute(1, 2, 0).numpy() * 255.0).astype(np.uint8)
         
@@ -84,20 +85,26 @@ class OpticalFlow:
         return flow_vectors
     
     
-    def compute_movement_score(self, flow_vectors:np.ndarray) -> float:
+    def compute_movement_scores(self, flow_vectors:np.ndarray) -> Tuple[float, float, float]:
         """Computes the movement score from the flow vectors"""
         u, v = flow_vectors[..., 0], flow_vectors[..., 1]
         magnitude = np.sqrt(u**2 + v**2)
-        movement_score = np.sum(magnitude)
+        movement_sum = np.sum(magnitude)
+        movement_mean = np.mean(magnitude)
+        movement_median = np.median(magnitude)
 
-        return movement_score
-        
-        
-    
+        return movement_sum, movement_mean, movement_median
+
+
     def reset(self):
         """
         Reset the optical flow state.
         """
         self.prev_frame = None 
+
+
+    @staticmethod
+    def update_flow_vector_overlay():
+        pass
      
      
