@@ -24,8 +24,9 @@ authors = [
 
 
 dependencies = [
-  "aiko_services>=0.6",
-  "highlighter-sdk>=2.4.73"
+  "highlighter-sdk[predictors]>=2.5.0",
+  "torch",
+  "torchvision"
 ]
 
 [tool.setuptools.packages.find]
